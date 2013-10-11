@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  TableViewController.h
 //  FontViewer
 //
 //  Created by Victor Wibisono on 22/09/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface TableViewController : UITableViewController
 
 @end
