@@ -180,6 +180,9 @@ NSString *_revertString = @"Revert";
         if (newCell.accessoryType == UITableViewCellAccessoryNone) {
             newCell.accessoryType = UITableViewCellAccessoryCheckmark;
             self.currentAlignmentSettingObject = [[self getAlignmentRows] objectAtIndex:indexPath.row];
+            
+            // Save currently selected text alignment index to NSUserDefaults.
+            [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"TextAlignmentIndex"];
         }
         
         UITableViewCell *oldCell = [self.tableView cellForRowAtIndexPath:oldIndexPath];
@@ -196,6 +199,8 @@ NSString *_revertString = @"Revert";
         } else if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
+        
+        [[NSUserDefaults standardUserDefaults] setBool:cell.accessoryType == UITableViewCellAccessoryCheckmark ? YES : NO forKey:@"CharacterReversed"];
         
     } else if (indexPath.section == 2) {
         // Section: Sort by
@@ -217,6 +222,9 @@ NSString *_revertString = @"Revert";
         if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
             oldCell.accessoryType = UITableViewCellAccessoryNone;
         }
+        
+        // Save currently selected sort by index to NSUserDefaults.
+        [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"SortByIndex"];
     }
     
 }

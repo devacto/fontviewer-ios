@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		575D4BFD18090B67006D6F24 /* DataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 575D4BFC18090B67006D6F24 /* DataModel.m */; };
 		57D39E9517EED97500395F53 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57D39E9417EED97500395F53 /* UIKit.framework */; };
 		57D39E9717EED97500395F53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57D39E9617EED97500395F53 /* Foundation.framework */; };
 		57D39E9917EED97500395F53 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57D39E9817EED97500395F53 /* CoreGraphics.framework */; };
@@ -23,8 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		575D4BFB18090B67006D6F24 /* DataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModel.h; sourceTree = "<group>"; };
-		575D4BFC18090B67006D6F24 /* DataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataModel.m; sourceTree = "<group>"; };
 		57D39E9117EED97500395F53 /* FontViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FontViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57D39E9417EED97500395F53 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		57D39E9617EED97500395F53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -96,8 +93,6 @@
 				57D39EB917EED9D900395F53 /* TableViewController.xib */,
 				57F7183C17F6642500896702 /* SettingsViewController.h */,
 				57F7183D17F6642500896702 /* SettingsViewController.m */,
-				575D4BFB18090B67006D6F24 /* DataModel.h */,
-				575D4BFC18090B67006D6F24 /* DataModel.m */,
 				57D39E9B17EED97500395F53 /* Supporting Files */,
 			);
 			path = FontViewer;
@@ -184,7 +179,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				57D39EA117EED97500395F53 /* main.m in Sources */,
-				575D4BFD18090B67006D6F24 /* DataModel.m in Sources */,
 				57D39EA517EED97500395F53 /* AppDelegate.m in Sources */,
 				57D39EBA17EED9D900395F53 /* TableViewController.m in Sources */,
 				57F7183E17F6642500896702 /* SettingsViewController.m in Sources */,
