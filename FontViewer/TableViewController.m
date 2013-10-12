@@ -11,6 +11,8 @@
 
 @interface TableViewController ()
 
+@property (nonatomic, strong) NSMutableArray * fontNames;
+
 @end
 
 @implementation TableViewController
@@ -19,12 +21,15 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    // Set property which will become the data source of the TableViewController.
+    self.fontNames = [[UIFont familyNames] mutableCopy];
+    
     // Setting the title in the navigation controller
     // Adding the edit button
     // Adding the settings button
@@ -60,7 +65,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[UIFont familyNames] count];
+    return [self.fontNames count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -69,10 +74,10 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.textLabel.text = [[UIFont familyNames] objectAtIndex:indexPath.row];
     }
     
     // Configure the cell...
+    cell.textLabel.text = [self.fontNames objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -91,14 +96,14 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
+        [self.fontNames removeObjectAtIndex:indexPath.row];
+        NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
+        [tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-
 
 /*
 // Override to support rearranging the table view.
@@ -169,6 +174,10 @@
     return items;
 }
 
+- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
 #pragma mark - Selectors
 
 - (void)displaySettingsScreen {
@@ -176,8 +185,5 @@
     settingsViewController.title = @"Settings";
     [self.navigationController pushViewController:settingsViewController animated:YES];
 }
-
-
-
 
 @end
