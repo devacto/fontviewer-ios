@@ -78,6 +78,7 @@
     
     // Configure the cell...
     cell.textLabel.text = [self.fontNames objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:14.0];
     
     return cell;
 }
