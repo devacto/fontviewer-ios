@@ -17,6 +17,8 @@
 
 @implementation TableViewController
 
+NSTextAlignment _textAlignment;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -30,11 +32,16 @@
     // Set property which will become the data source of the TableViewController.
     self.fontNames = [[UIFont familyNames] mutableCopy];
     
+    // Set text alignment
+    _textAlignment = [self getTextAlignment];
+    
     // Set the title in the navigation controller
     // Add the edit button
     // Add the settings button
     [self setupEditButton];
     [self setupSettingsButton];
+    
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -76,9 +83,12 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    cell.textLabel.textAlignment = _textAlignment;
+    
     // Configure the cell...
     cell.textLabel.text = [self.fontNames objectAtIndex:indexPath.row];
-    cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:14.0];
+//    cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:14.0];
+    
     
     return cell;
 }
@@ -177,6 +187,27 @@
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     settingsViewController.title = @"Settings";
     [self.navigationController pushViewController:settingsViewController animated:YES];
+}
+
+#pragma mark - Display styles {
+
+// Text alignment: left or right
+- (NSTextAlignment)getTextAlignment {
+    NSInteger textAlignmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"TextAlignmentIndex"];
+    switch (textAlignmentIndex) {
+        case 0:
+            return NSTextAlignmentLeft;
+            break;
+        
+        case 1:
+            return NSTextAlignmentRight;
+            break;
+        
+        default:
+            [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"TextAlignmentIndex"];
+            return NSTextAlignmentLeft;
+            break;
+    }
 }
 
 @end

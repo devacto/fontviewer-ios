@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *currentAlignmentSettingObject;
 @property (nonatomic, strong) NSString *currentSortByObject;
 @property (nonatomic, strong) UISwitch *ascendingSwitch;
+@property (nonatomic, strong) NSMutableDictionary *settingsDictionary;
 
 @end
 
@@ -212,13 +213,23 @@ NSString *_revertString = @"Revert";
         }
         
         // Saves currently selected sort by index to NSUserDefaults.
-        [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"SortByIndex"];
+        [self saveIntegerValue:indexPath.row forKey:@"SortByIndex"];
+        
     }
     
 }
 
-#pragma mark - Reading fron NSUserDefaults
+#pragma mark - Persistence management for settings values
 
+- (void)saveIntegerValue:(NSInteger)value forKey:(NSString *)key {
+    [self.settingsDictionary setObject:[NSNumber numberWithInt:value] forKey:key];
+    [[NSUserDefaults standardUserDefaults] setInteger:value forKey:key];
+}
+
+- (void)saveBooleanValue: (BOOL)value forKey:(NSString *)key {
+    [self.settingsDictionary setObject:[NSNumber numberWithBool:value] forKey:key];
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
+}
 
 #pragma mark - Data setup
 
