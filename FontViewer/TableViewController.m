@@ -148,6 +148,11 @@
     }
 }
 
+- (void)editTable:(id)sender {
+    [self.tableView setEditing:!self.tableView.editing animated:YES];
+    [self setupEditButton];
+}
+
 - (void)setupSettingsButton {
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(displaySettingsScreen)];
     [self.navigationItem setLeftBarButtonItem:settingsButton];
