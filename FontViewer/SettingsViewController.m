@@ -17,7 +17,7 @@
 NSString *_textAlignmentString = @"Text Alignment";
 NSString *_characterString = @"Characters";
 NSString *_sortByString = @"Sort by";
-NSString *_ascendingString = @"Ascending";
+NSString *_ascendingString = @"Sort type";
 NSString *_revertString = @"Revert";
 
 - (id)initWithStyle:(UITableViewStyle)style
