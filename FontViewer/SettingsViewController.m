@@ -92,8 +92,6 @@ NSString *_revertString = @"Revert";
         labelString = [[self getRevertRows] objectAtIndex:indexPath.row];
     }
     
-    NSLog(@"Label string is %@", labelString);
-    
     // Configure the cell...
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -165,8 +163,8 @@ NSString *_revertString = @"Revert";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+    /*<#DetailViewController#>
+     <#DetailViewController#> *detailViewController = [[ alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
      // ...
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
@@ -177,7 +175,7 @@ NSString *_revertString = @"Revert";
 
 - (NSArray*)getSections
 {
-    return [NSArray arrayWithObjects: _textAlignmentString, @"Characters", @"Sort by", @"Ascending", @"Revert", nil];
+    return [NSArray arrayWithObjects: _textAlignmentString, _characterString, _sortByString, _ascendingString, _revertString, nil];
 }
 
 - (NSArray*)getAlignmentRows
