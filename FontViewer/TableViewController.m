@@ -30,9 +30,9 @@
     // Set property which will become the data source of the TableViewController.
     self.fontNames = [[UIFont familyNames] mutableCopy];
     
-    // Setting the title in the navigation controller
-    // Adding the edit button
-    // Adding the settings button
+    // Set the title in the navigation controller
+    // Add the edit button
+    // Add the settings button
     [self setupEditButton];
     [self setupSettingsButton];
 }
@@ -105,12 +105,15 @@
     }   
 }
 
-/*
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    NSString *stringToMove = [self.fontNames objectAtIndex:fromIndexPath.row];
+    [self.fontNames removeObjectAtIndex:fromIndexPath.row];
+    [self.fontNames insertObject:stringToMove atIndex:toIndexPath.row];
 }
-*/
+
 
 /*
 // Override to support conditional rearranging of the table view.
