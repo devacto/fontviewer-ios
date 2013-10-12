@@ -114,7 +114,6 @@
     [self.fontNames insertObject:stringToMove atIndex:toIndexPath.row];
 }
 
-
 /*
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -175,10 +174,6 @@
     }
     
     return items;
-}
-
-- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath {
-    
 }
 
 #pragma mark - Selectors
