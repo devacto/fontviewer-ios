@@ -10,11 +10,14 @@
 
 @interface SettingsViewController ()
 
+@property (nonatomic, strong) NSString *currentAlignmentSettingObject;
+@property (nonatomic, strong) NSString *currentSortByObject;
+
 @end
 
 @implementation SettingsViewController
 
-NSString *_textAlignmentString = @"Text Alignment";
+NSString *_textAlignmentString = @"Text alignment";
 NSString *_characterString = @"Characters";
 NSString *_sortByString = @"Sort by";
 NSString *_ascendingString = @"Sort type";
@@ -162,13 +165,60 @@ NSString *_revertString = @"Revert";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*<#DetailViewController#>
-     <#DetailViewController#> *detailViewController = [[ alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0) {
+        // Section: Text alignment
+        // Behaviour: Exclusive list checkmark.
+        NSInteger textAlignmentIndex = [[self getAlignmentRows] indexOfObject:self.currentAlignmentSettingObject];
+        if (textAlignmentIndex == indexPath.row) {
+            return;
+        }
+        
+        NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:textAlignmentIndex inSection:indexPath.section];
+        UITableViewCell *newCell = [self.tableView cellForRowAtIndexPath:indexPath];
+        if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+            newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+            self.currentAlignmentSettingObject = [[self getAlignmentRows] objectAtIndex:indexPath.row];
+        }
+        
+        UITableViewCell *oldCell = [self.tableView cellForRowAtIndexPath:oldIndexPath];
+        if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+            oldCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
+    } else if (indexPath.section == 1) {
+        // Section: Characters
+        // Behaviour: Inclusive list checkmark.
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        if (cell.accessoryType == UITableViewCellAccessoryNone) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
+    } else if (indexPath.section == 2) {
+        // Section: Sort by
+        // Behaviour: Exclusive list checkmark.
+        
+        NSInteger sortByIndex = [[self getSortByRows] indexOfObject:self.currentSortByObject];
+        if (sortByIndex == indexPath.row) {
+            return;
+        }
+        
+        NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:sortByIndex inSection:indexPath.section];
+        UITableViewCell *newCell = [self.tableView cellForRowAtIndexPath:indexPath];
+        if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+            newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+            self.currentSortByObject = [[self getSortByRows] objectAtIndex:indexPath.row];
+        }
+        
+        UITableViewCell *oldCell = [self.tableView cellForRowAtIndexPath:oldIndexPath];
+        if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+            oldCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+    
 }
 
 #pragma mark - Data setup
@@ -185,12 +235,12 @@ NSString *_revertString = @"Revert";
 
 - (NSArray *)getCharacterRows
 {
-    return [NSArray arrayWithObjects:@"Reverse Characters", nil];
+    return [NSArray arrayWithObjects:@"Reverse characters", nil];
 }
 
 - (NSArray *)getSortByRows
 {
-    return [NSArray arrayWithObjects:@"Alpha", @"Character count", @"Display size", nil];
+    return [NSArray arrayWithObjects:@"Alphabetical order", @"Character count", @"Display size", nil];
 }
 
 - (NSArray*)getSortingRows

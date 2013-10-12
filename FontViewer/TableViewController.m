@@ -11,7 +11,7 @@
 
 @interface TableViewController ()
 
-@property (nonatomic, strong) NSMutableArray * fontNames;
+@property (nonatomic, strong) NSMutableArray *fontNames;
 
 @end
 
