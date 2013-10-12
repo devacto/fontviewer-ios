@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSString *currentAlignmentSettingObject;
 @property (nonatomic, strong) NSString *currentSortByObject;
+@property (nonatomic, strong) UISwitch *ascendingSwitch;
 
 @end
 
@@ -104,7 +105,7 @@ NSString *_revertString = @"Revert";
     // This has to be out of the cell == nil if clause so that the label will be set even if they can reuse existing cell.
     cell.textLabel.text = labelString;
     
-    if ([cell.textLabel.text isEqualToString: @"Reverse Characters"]) {
+    if ([cell.textLabel.text isEqualToString: @"Reverse characters"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UISwitch *switchView = [[UISwitch alloc] init];
         cell.accessoryView = switchView;
@@ -181,7 +182,7 @@ NSString *_revertString = @"Revert";
             newCell.accessoryType = UITableViewCellAccessoryCheckmark;
             self.currentAlignmentSettingObject = [[self getAlignmentRows] objectAtIndex:indexPath.row];
             
-            // Save currently selected text alignment index to NSUserDefaults.
+            // Saves currently selected text alignment index to NSUserDefaults.
             [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"TextAlignmentIndex"];
         }
         
@@ -190,22 +191,9 @@ NSString *_revertString = @"Revert";
             oldCell.accessoryType = UITableViewCellAccessoryNone;
         }
         
-    } else if (indexPath.section == 1) {
-        // Section: Characters
-        // Behaviour: Inclusive list checkmark.
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        if (cell.accessoryType == UITableViewCellAccessoryNone) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        } else if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-        
-        [[NSUserDefaults standardUserDefaults] setBool:cell.accessoryType == UITableViewCellAccessoryCheckmark ? YES : NO forKey:@"CharacterReversed"];
-        
     } else if (indexPath.section == 2) {
         // Section: Sort by
         // Behaviour: Exclusive list checkmark.
-        
         NSInteger sortByIndex = [[self getSortByRows] indexOfObject:self.currentSortByObject];
         if (sortByIndex == indexPath.row) {
             return;
@@ -223,11 +211,14 @@ NSString *_revertString = @"Revert";
             oldCell.accessoryType = UITableViewCellAccessoryNone;
         }
         
-        // Save currently selected sort by index to NSUserDefaults.
+        // Saves currently selected sort by index to NSUserDefaults.
         [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"SortByIndex"];
     }
     
 }
+
+#pragma mark - Reading fron NSUserDefaults
+
 
 #pragma mark - Data setup
 
