@@ -143,7 +143,8 @@ NSTextAlignment _textAlignment;
 
 #pragma mark - Actions
 
-- (void) setupEditButton {
+- (void) setupEditButton
+{
     if ([self numberOfItemsInTable] > 0) {
         UIBarButtonSystemItem rightButtonType;
         if (self.tableView.isEditing) {
@@ -160,18 +161,21 @@ NSTextAlignment _textAlignment;
     }
 }
 
-- (void)editTable:(id)sender {
+- ( void)editTable:(id)sender
+{
     [self.tableView setEditing:!self.tableView.editing animated:YES];
     [self setupEditButton];
 }
 
-- (void)setupSettingsButton {
+- (void)setupSettingsButton
+{
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(displaySettingsScreen)];
     [self.navigationItem setLeftBarButtonItem:settingsButton];
     
 }
 
-- (NSInteger)numberOfItemsInTable {
+- (NSInteger)numberOfItemsInTable
+{
     NSInteger items = 0;
     
     for (int i = 0; i < [self.tableView numberOfSections]; i++) {
@@ -181,9 +185,24 @@ NSTextAlignment _textAlignment;
     return items;
 }
 
+// String reverse helper function
+// Credit: http://stackoverflow.com/questions/6720191/reverse-nsstring-text
+- (NSString *)reverseStringFrom:(NSString *)originalString
+{
+    NSMutableString *reversedString = [NSMutableString string];
+    NSInteger charIndex = [originalString length];
+    while (originalString && charIndex > 0) {
+        charIndex--;
+        NSRange subStrRange = NSMakeRange(charIndex, 1);
+        [reversedString appendString:[originalString substringWithRange:subStrRange]];
+    }
+    return reversedString;
+}
+
 #pragma mark - Selectors
 
-- (void)displaySettingsScreen {
+- (void)displaySettingsScreen
+{
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     settingsViewController.title = @"Settings";
     [self.navigationController pushViewController:settingsViewController animated:YES];
@@ -209,5 +228,9 @@ NSTextAlignment _textAlignment;
             break;
     }
 }
+
+// Reverse characters: true or false
+// Sort by: alphabetical order, character count, display size
+// Sort type ascending: true or false
 
 @end

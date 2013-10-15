@@ -12,8 +12,14 @@
 
 @property (nonatomic, strong) NSString *currentAlignmentSettingObject;
 @property (nonatomic, strong) NSString *currentSortByObject;
+@property (nonatomic, strong) UISwitch *reverseCharacterSwitch;
 @property (nonatomic, strong) UISwitch *ascendingSwitch;
 @property (nonatomic, strong) NSMutableDictionary *settingsDictionary;
+
+@property NSInteger textAlignmentIndex;
+@property NSInteger sortByIndex;
+@property BOOL reverseCharacterBool;
+@property BOOL sortAscendingBool;
 
 @end
 
@@ -32,6 +38,10 @@ NSString *_revertString = @"Revert";
         // Custom initialization
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad
@@ -84,8 +94,14 @@ NSString *_revertString = @"Revert";
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    BOOL pleasePutCheckmark = NO;
+    BOOL pleaseTurnOnSwitch = NO;
+    
     NSString *labelString;
     if ([self tableView:self.tableView titleForHeaderInSection:indexPath.section] == _textAlignmentString) {
+        // Get text alignment index value from NSUserDefaults.
+        // If there is none then left is the default.
+        // Put that into an integer somewhere.
         labelString = [[self getAlignmentRows] objectAtIndex:indexPath.row];
     } else if ([self tableView:self.tableView titleForHeaderInSection:indexPath.section] == _characterString) {
         labelString = [[self getCharacterRows] objectAtIndex:indexPath.row];
@@ -106,10 +122,16 @@ NSString *_revertString = @"Revert";
     // This has to be out of the cell == nil if clause so that the label will be set even if they can reuse existing cell.
     cell.textLabel.text = labelString;
     
+    // Set the checkmark and switch value.
+    if (pleasePutCheckmark) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    
     if ([cell.textLabel.text isEqualToString: @"Reverse characters"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UISwitch *switchView = [[UISwitch alloc] init];
         cell.accessoryView = switchView;
+        
     } else if ([cell.textLabel.text isEqualToString:@"Ascending"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UISwitch *switchView = [[UISwitch alloc] init];
@@ -217,6 +239,22 @@ NSString *_revertString = @"Revert";
         
     }
     
+}
+
+#pragma mark - Load data from user defaults
+
+- (void)loadDataFromUserDefaults {
+    // Load text alignment index value.
+    _textAlignmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"TextAlignmentIndex"];
+
+    // Load reverse character boolean value.
+    _reverseCharacterBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"ReverseCharacterBool"];
+    
+    // Load sort by index value.
+    _sortByIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"SortByIndex"];
+    
+    // Load sort type ascending boolean value.
+    _sortAscendingBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"SortAscendingBool"];
 }
 
 #pragma mark - Persistence management for settings values
