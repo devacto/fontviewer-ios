@@ -229,7 +229,6 @@ NSTextAlignment _textAlignment;
     }
 }
 
-// Reverse characters: true or false
 // Sort by: alphabetical order, character count, display size
 // Sort type ascending: true or false
 
