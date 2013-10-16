@@ -19,7 +19,7 @@
 @property NSInteger textAlignmentIndex;
 @property NSInteger sortByIndex;
 @property BOOL reverseCharacterBool;
-@property BOOL sortAscendingBool;
+@property BOOL ascendingBool;
 
 @end
 
@@ -122,14 +122,18 @@ NSString *_revertString = @"Revert";
     
     if ([cell.textLabel.text isEqualToString: @"Reverse characters"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UISwitch *switchView = [[UISwitch alloc] init];
-        cell.accessoryView = switchView;
+        _reverseCharacterSwitch = [[UISwitch alloc] init];
+        _reverseCharacterSwitch.on = _reverseCharacterBool;
+        cell.accessoryView = _reverseCharacterSwitch;
         
     } else if ([cell.textLabel.text isEqualToString:@"Ascending"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UISwitch *switchView = [[UISwitch alloc] init];
-        cell.accessoryView = switchView;
+        _ascendingSwitch = [[UISwitch alloc] init];
+        _ascendingSwitch.on = _ascendingBool;
+        cell.accessoryView = _ascendingSwitch;
     }
+    
+    [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
 }
@@ -247,8 +251,27 @@ NSString *_revertString = @"Revert";
     _sortByIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"SortByIndex"];
     
     // Load sort type ascending boolean value.
-    _sortAscendingBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"SortAscendingBool"];
+    _ascendingBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"SortAscendingBool"];
 }
+
+// Configuring cells based on data from NSUserDefaults
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    
+    // Section 0: Text Alignmnet
+    if (section == 0) {
+        if (row == _textAlignmentIndex) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+    } else if (section == 2) {
+        // Section 2: Sort By
+        if (row == _sortByIndex) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+    }
+}
+
 
 #pragma mark - Data setup
 
