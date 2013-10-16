@@ -42,6 +42,7 @@ NSString *_revertString = @"Revert";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self loadDataFromUserDefaults];
 }
 
 - (void)viewDidLoad
@@ -94,9 +95,6 @@ NSString *_revertString = @"Revert";
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    BOOL pleasePutCheckmark = NO;
-    BOOL pleaseTurnOnSwitch = NO;
-    
     NSString *labelString;
     if ([self tableView:self.tableView titleForHeaderInSection:indexPath.section] == _textAlignmentString) {
         // Get text alignment index value from NSUserDefaults.
@@ -121,11 +119,6 @@ NSString *_revertString = @"Revert";
     // Setting the label of the cell
     // This has to be out of the cell == nil if clause so that the label will be set even if they can reuse existing cell.
     cell.textLabel.text = labelString;
-    
-    // Set the checkmark and switch value.
-    if (pleasePutCheckmark) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
     
     if ([cell.textLabel.text isEqualToString: @"Reverse characters"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -235,7 +228,7 @@ NSString *_revertString = @"Revert";
         }
         
         // Saves currently selected sort by index to NSUserDefaults.
-        [self saveIntegerValue:indexPath.row forKey:@"SortByIndex"];
+        [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"SortByIndex"];
         
     }
     
@@ -255,18 +248,6 @@ NSString *_revertString = @"Revert";
     
     // Load sort type ascending boolean value.
     _sortAscendingBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"SortAscendingBool"];
-}
-
-#pragma mark - Persistence management for settings values
-
-- (void)saveIntegerValue:(NSInteger)value forKey:(NSString *)key {
-    [self.settingsDictionary setObject:[NSNumber numberWithInt:value] forKey:key];
-    [[NSUserDefaults standardUserDefaults] setInteger:value forKey:key];
-}
-
-- (void)saveBooleanValue: (BOOL)value forKey:(NSString *)key {
-    [self.settingsDictionary setObject:[NSNumber numberWithBool:value] forKey:key];
-    [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
 }
 
 #pragma mark - Data setup
