@@ -124,6 +124,7 @@ NSString *_revertString = @"Revert";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         _reverseCharacterSwitch = [[UISwitch alloc] init];
         _reverseCharacterSwitch.on = _reverseCharacterBool;
+//        [_reverseCharacterSwitch addTarget:self action:@selector(reverseCharacterSwitchSelected:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = _reverseCharacterSwitch;
         
     } else if ([cell.textLabel.text isEqualToString:@"Ascending"]) {
@@ -191,7 +192,7 @@ NSString *_revertString = @"Revert";
     if (indexPath.section == 0) {
         // Section: Text alignment
         // Behaviour: Exclusive list checkmark.
-        NSInteger textAlignmentIndex = [[self getAlignmentRows] indexOfObject:self.currentAlignmentSettingObject];
+        NSInteger textAlignmentIndex = [[self getAlignmentRows] indexOfObject:_currentAlignmentSettingObject];
         if (textAlignmentIndex == indexPath.row) {
             return;
         }
@@ -200,10 +201,11 @@ NSString *_revertString = @"Revert";
         UITableViewCell *newCell = [self.tableView cellForRowAtIndexPath:indexPath];
         if (newCell.accessoryType == UITableViewCellAccessoryNone) {
             newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-            self.currentAlignmentSettingObject = [[self getAlignmentRows] objectAtIndex:indexPath.row];
+            _currentAlignmentSettingObject = [[self getAlignmentRows] objectAtIndex:indexPath.row];
             
             // Saves currently selected text alignment index to NSUserDefaults.
             [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"TextAlignmentIndex"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
         
         UITableViewCell *oldCell = [self.tableView cellForRowAtIndexPath:oldIndexPath];
@@ -224,6 +226,10 @@ NSString *_revertString = @"Revert";
         if (newCell.accessoryType == UITableViewCellAccessoryNone) {
             newCell.accessoryType = UITableViewCellAccessoryCheckmark;
             self.currentSortByObject = [[self getSortByRows] objectAtIndex:indexPath.row];
+            
+            // Saves currently selected sort by index to NSUserDefaults.
+            [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"SortByIndex"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
         
         UITableViewCell *oldCell = [self.tableView cellForRowAtIndexPath:oldIndexPath];
@@ -231,8 +237,6 @@ NSString *_revertString = @"Revert";
             oldCell.accessoryType = UITableViewCellAccessoryNone;
         }
         
-        // Saves currently selected sort by index to NSUserDefaults.
-        [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"SortByIndex"];
         
     }
     
@@ -258,16 +262,25 @@ NSString *_revertString = @"Revert";
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
+
+    _textAlignmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"TextAlignmentIndex"];
     
-    // Section 0: Text Alignmnet
+    // Section 0: Text Alignment
     if (section == 0) {
         if (row == _textAlignmentIndex) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            _currentAlignmentSettingObject = [[self getAlignmentRows] objectAtIndex:row];
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
+        
     } else if (section == 2) {
         // Section 2: Sort By
         if (row == _sortByIndex) {
+            _currentSortByObject = [[self getSortByRows] objectAtIndex:row];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
     }
 }
