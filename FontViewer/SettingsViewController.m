@@ -124,13 +124,14 @@ NSString *_revertString = @"Revert";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         _reverseCharacterSwitch = [[UISwitch alloc] init];
         _reverseCharacterSwitch.on = _reverseCharacterBool;
-//        [_reverseCharacterSwitch addTarget:self action:@selector(reverseCharacterSwitchSelected:) forControlEvents:UIControlEventValueChanged];
+        [_reverseCharacterSwitch addTarget:self action:@selector(reverseCharacterSwitchSelected:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = _reverseCharacterSwitch;
         
     } else if ([cell.textLabel.text isEqualToString:@"Ascending"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         _ascendingSwitch = [[UISwitch alloc] init];
         _ascendingSwitch.on = _ascendingBool;
+        [_ascendingSwitch addTarget:self action:@selector(ascendingSwitchSelected:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = _ascendingSwitch;
     }
     
@@ -182,6 +183,20 @@ NSString *_revertString = @"Revert";
     return YES;
 }
 */
+
+#pragma mark - UISwitch Selection
+
+- (void)reverseCharacterSwitchSelected:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"ReverseCharacterBool"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)ascendingSwitchSelected:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"SortAscendingBool"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 #pragma mark - Table view delegate
 
