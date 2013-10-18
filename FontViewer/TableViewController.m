@@ -237,6 +237,14 @@ NSTextAlignment _textAlignment;
     [_fontNames sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
+/*
+// Method to sort the array by string character count
+- (void)sortFontNamesByCharacterCount
+{
+    // @TODO: Add method here.
+}
+*/
+
 // Sort type ascending: true or false
 
 @end
