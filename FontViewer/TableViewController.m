@@ -230,6 +230,13 @@ NSTextAlignment _textAlignment;
 }
 
 // Sort by: alphabetical order, character count, display size
+
+// Method to sort the array by alphabetical order
+- (void)sortFontNamesByAlphabeticalOrder
+{
+    [_fontNames sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+}
+
 // Sort type ascending: true or false
 
 @end
