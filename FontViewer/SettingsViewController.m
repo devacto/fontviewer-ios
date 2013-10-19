@@ -254,30 +254,13 @@ NSString *_revertString = @"Revert";
         
         
     }
-    
-}
-
-#pragma mark - Load data from user defaults
-
-- (void)loadDataFromUserDefaults {
-    // Load text alignment index value.
-    _textAlignmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"TextAlignmentIndex"];
-
-    // Load reverse character boolean value.
-    _reverseCharacterBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"ReverseCharacterBool"];
-    
-    // Load sort by index value.
-    _sortByIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"SortByIndex"];
-    
-    // Load sort type ascending boolean value.
-    _ascendingBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"SortAscendingBool"];
 }
 
 // Configuring cells based on data from NSUserDefaults
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
-
+    
     _textAlignmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"TextAlignmentIndex"];
     
     // Section 0: Text Alignment
@@ -300,6 +283,21 @@ NSString *_revertString = @"Revert";
     }
 }
 
+#pragma mark - Load data from user defaults
+
+- (void)loadDataFromUserDefaults {
+    // Load text alignment index value.
+    _textAlignmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"TextAlignmentIndex"];
+
+    // Load reverse character boolean value.
+    _reverseCharacterBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"ReverseCharacterBool"];
+    
+    // Load sort by index value.
+    _sortByIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"SortByIndex"];
+    
+    // Load sort type ascending boolean value.
+    _ascendingBool = [[NSUserDefaults standardUserDefaults] boolForKey:@"SortAscendingBool"];
+}
 
 #pragma mark - Data setup
 

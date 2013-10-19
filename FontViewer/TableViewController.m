@@ -32,6 +32,9 @@ NSTextAlignment _textAlignment;
     // Set property which will become the data source of the TableViewController.
     self.fontNames = [[UIFont familyNames] mutableCopy];
     
+    // Configure the settings of the model which is to be displayed in the table.
+    [self setupDataModel];
+    
     // Set text alignment
     _textAlignment = [self getTextAlignment];
     
@@ -87,8 +90,7 @@ NSTextAlignment _textAlignment;
     
     // Configure the cell...
     cell.textLabel.text = [self.fontNames objectAtIndex:indexPath.row];
-//    cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:14.0];
-    
+    cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:14.0];
     
     return cell;
 }
@@ -141,7 +143,7 @@ NSTextAlignment _textAlignment;
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - Actions
+#pragma mark - Table setup helper methods
 
 - (void) setupEditButton
 {
@@ -171,22 +173,58 @@ NSTextAlignment _textAlignment;
 {
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(displaySettingsScreen)];
     [self.navigationItem setLeftBarButtonItem:settingsButton];
-    
 }
 
-- (NSInteger)numberOfItemsInTable
+- (void)setupDataModel
 {
-    NSInteger items = 0;
+    // Read from NSUserDefaults and modify _fontNames property based on stored settings.
+    // TextAlignmentIndex, ReverseCharacterBool, SortByIndex, SortAscendingBool.
+    // This function will call helper functions that will sort or reverse character of the items in the table.
     
-    for (int i = 0; i < [self.tableView numberOfSections]; i++) {
-        items = items + [self.tableView numberOfRowsInSection:i];
+    // TextAlignment does not need to be done because it is implemented already.
+    
+    // Check if ReverseCharacterBool is on and then change the array string accordingly.
+    NSMutableArray *newArray = [NSMutableArray arrayWithCapacity:[_fontNames count]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ReverseCharacterBool"] == YES) {
+        [_fontNames enumerateObjectsUsingBlock:^(NSString *string, NSUInteger arrayIndex, BOOL *stop) {
+            NSString *reversedString = [self reverseStringFrom:string];
+            [newArray insertObject:reversedString atIndex:arrayIndex];
+        }];
+        _fontNames = newArray;
+    } else {
+        _fontNames = [[UIFont familyNames] mutableCopy];
     }
     
-    return items;
+    // Check which sorting is being stored on NSUserDefaults and then apply the necessary sorting.
+    // 0 - Alphabetical order; 1 - Character count; 2 - Display size; 3 - No sorting
+    NSInteger sortByIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"SortByIndex"];
+    switch (sortByIndex) {
+        case 0:
+            [self sortFontNamesByAlphabeticalOrder];
+            break;
+        
+        case 1:
+            [self sortFontNamesByCharacterCount];
+            break;
+            
+        default:
+            [self sortFontNamesByAlphabeticalOrder];
+            break;
+    }
 }
 
+#pragma mark - Selectors
+
+- (void)displaySettingsScreen
+{
+    SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    settingsViewController.title = @"Settings";
+    [self.navigationController pushViewController:settingsViewController animated:YES];
+}
+
+#pragma mark - Display style helper methods
+
 // String reverse helper function
-// Credit: http://stackoverflow.com/questions/6720191/reverse-nsstring-text
 - (NSString *)reverseStringFrom:(NSString *)originalString
 {
     NSMutableString *reversedString = [NSMutableString string];
@@ -199,16 +237,6 @@ NSTextAlignment _textAlignment;
     return reversedString;
 }
 
-#pragma mark - Selectors
-
-- (void)displaySettingsScreen
-{
-    SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    settingsViewController.title = @"Settings";
-    [self.navigationController pushViewController:settingsViewController animated:YES];
-}
-
-#pragma mark - Display styles {
 
 // Text alignment: left or right
 - (NSTextAlignment)getTextAlignment {
@@ -237,14 +265,30 @@ NSTextAlignment _textAlignment;
     [_fontNames sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
-/*
 // Method to sort the array by string character count
 - (void)sortFontNamesByCharacterCount
 {
-    // @TODO: Add method here.
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"length" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    [_fontNames sortUsingDescriptors:sortDescriptors];
 }
-*/
+
 
 // Sort type ascending: true or false
+
+#pragma mark - Other helper methods
+
+- (NSInteger)numberOfItemsInTable
+{
+    NSInteger items = 0;
+    
+    for (int i = 0; i < [self.tableView numberOfSections]; i++) {
+        items = items + [self.tableView numberOfRowsInSection:i];
+    }
+    
+    return items;
+}
 
 @end
