@@ -13,12 +13,14 @@
 
 @property (nonatomic, strong) NSMutableArray *fontNames;
 @property BOOL reverseCharacter;
+@property BOOL sortTypeAscending;
+@property NSTextAlignment textAlignment;
 
 @end
 
 @implementation TableViewController
 
-NSTextAlignment _textAlignment;
+CGFloat DEFAULT_FONT_SIZE = 14.0;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -91,7 +93,7 @@ NSTextAlignment _textAlignment;
     cell.textLabel.textAlignment = _textAlignment;
     
     // Configure the cell...
-    cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:14.0];
+    cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:DEFAULT_FONT_SIZE];
     
     // Check if the text characters are supposed to be reversed.
     if (_reverseCharacter == YES) {
@@ -199,7 +201,7 @@ NSTextAlignment _textAlignment;
     }
     
     // Check which sorting is being stored on NSUserDefaults and then apply the necessary sorting.
-    // 0 - Alphabetical order; 1 - Character count; 2 - Display size; 3 - No sorting
+    // 0 - Alphabetical order; 1 - Character count; 2 - Display size; If it is not 0, 1 or 2 - No sorting.
     NSInteger sortByIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"SortByIndex"];
     switch (sortByIndex) {
         case 0:
@@ -210,10 +212,14 @@ NSTextAlignment _textAlignment;
             [self sortFontNamesByCharacterCount];
             break;
             
+        case 2:
+            [self sortFontNamesByDisplaySize];
+            
         default:
-            [self sortFontNamesByAlphabeticalOrder];
             break;
     }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Selectors
@@ -260,15 +266,15 @@ NSTextAlignment _textAlignment;
     }
 }
 
-// Sort by: alphabetical order, character count, display size
+// Sort by: alphabetical order, character count, display size.
 
-// Method to sort the array by alphabetical order
+// Method to sort the array by alphabetical order.
 - (void)sortFontNamesByAlphabeticalOrder
 {
     [_fontNames sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
-// Method to sort the array by string character count
+// Method to sort the array by string character count.
 - (void)sortFontNamesByCharacterCount
 {
     NSSortDescriptor *sortDescriptor;
@@ -278,12 +284,20 @@ NSTextAlignment _textAlignment;
     [_fontNames sortUsingDescriptors:sortDescriptors];
 }
 
-// Method to sort the array by display size
+// Method to sort the array by display size.
 - (void)sortFontNamesByDisplaySize
 {
-    
-}
+    [_fontNames sortUsingComparator:^NSComparisonResult(id firstObject, id secondObject) {
+        
+        NSNumber *firstFontWidth  = [NSNumber numberWithFloat:[(NSString *)firstObject sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:firstObject size:DEFAULT_FONT_SIZE]}].width];
+        NSNumber *secondFontWidth = [NSNumber numberWithFloat:[(NSString *)secondObject sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:secondObject size:DEFAULT_FONT_SIZE]}].width];
+        
+        NSLog(@"Display size of firstObject %@ is %@", firstObject, firstFontWidth);
+        NSLog(@"Display size of secondObject %@ is %@", secondObject, secondFontWidth);
 
+        return [firstFontWidth compare:secondFontWidth];
+    }];
+}
 
 // Sort type ascending: true or false
 
