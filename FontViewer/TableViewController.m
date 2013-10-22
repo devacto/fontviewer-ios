@@ -12,6 +12,7 @@
 @interface TableViewController ()
 
 @property (nonatomic, strong) NSMutableArray *fontNames;
+@property BOOL reverseCharacter;
 
 @end
 
@@ -29,6 +30,8 @@ NSTextAlignment _textAlignment;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     // Set property which will become the data source of the TableViewController.
     self.fontNames = [[UIFont familyNames] mutableCopy];
     
@@ -43,7 +46,6 @@ NSTextAlignment _textAlignment;
     // Add the settings button
     [self setupEditButton];
     [self setupSettingsButton];
-    
     [self.tableView reloadData];
 }
 
@@ -89,8 +91,14 @@ NSTextAlignment _textAlignment;
     cell.textLabel.textAlignment = _textAlignment;
     
     // Configure the cell...
-    cell.textLabel.text = [self.fontNames objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:14.0];
+    
+    // Check if the text characters are supposed to be reversed.
+    if (_reverseCharacter == YES) {
+        cell.textLabel.text = [self reverseStringFrom:[self.fontNames objectAtIndex:indexPath.row]];
+    } else {
+        cell.textLabel.text = [self.fontNames objectAtIndex:indexPath.row];
+    }
     
     return cell;
 }
@@ -184,15 +192,10 @@ NSTextAlignment _textAlignment;
     // TextAlignment does not need to be done because it is implemented already.
     
     // Check if ReverseCharacterBool is on and then change the array string accordingly.
-    NSMutableArray *newArray = [NSMutableArray arrayWithCapacity:[_fontNames count]];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ReverseCharacterBool"] == YES) {
-        [_fontNames enumerateObjectsUsingBlock:^(NSString *string, NSUInteger arrayIndex, BOOL *stop) {
-            NSString *reversedString = [self reverseStringFrom:string];
-            [newArray insertObject:reversedString atIndex:arrayIndex];
-        }];
-        _fontNames = newArray;
+        _reverseCharacter = YES;
     } else {
-        _fontNames = [[UIFont familyNames] mutableCopy];
+        _reverseCharacter = NO;
     }
     
     // Check which sorting is being stored on NSUserDefaults and then apply the necessary sorting.
@@ -273,6 +276,12 @@ NSTextAlignment _textAlignment;
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     
     [_fontNames sortUsingDescriptors:sortDescriptors];
+}
+
+// Method to sort the array by display size
+- (void)sortFontNamesByDisplaySize
+{
+    
 }
 
 
