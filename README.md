@@ -5,5 +5,5 @@ FontViewer is an iOS font catalogue app. The idea of the app is to display the f
 
 In the Settings page, you will be able to apply various settings to the way the fonts are being displayed.
 
-Some of these settings are: 
-1. Testing
+Some of these settings are
+* Testing
