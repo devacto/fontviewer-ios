@@ -4,9 +4,9 @@ FontViewer is an iOS font catalogue app. The idea of the app is to display the f
 
 In the Settings page, you will be able to apply various settings to the way the fonts are being displayed.
 
-##### Settings Screenshots #####
+#### Screenshots ####
 
-[Screenshot 01](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/01_settings_top.png "Title")
+1. [Settings Screen](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/01_settings_top.png "Settings Screen - Top")
 
 #### Text Alignment Settings ####
 
@@ -18,3 +18,16 @@ Options are ON or OFF. Setting reverse character to ON will print the character 
 
 #### Sort By Settings ####
 
+Options are alphabetical order, character count, display size. Alphabetical order sorting is obvious. Sort by character count sorts the table by the number of character that makes up the font name. Sort by display size sorts the table by the width if the name of the font were to be rendered in the specific font at the default size of 14.0f.
+
+#### Sort Type Settings ####
+
+Options are ON or OFF for ascending. Turning it on will sort the table in ascending order based on the sort type (smallest to largest). Turning it off will sort the table in descending order based on the sort type (largest to smallest).
+
+#### Revert Settings ####
+
+Tapping on this will revert the whole app into standard settings of 
+* Text alignment: LEFT
+* Reverse character: OFF
+* Sort by: ALPHABETICAL ORDER
+* Sort type: ASCENDING
