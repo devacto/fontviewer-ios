@@ -6,7 +6,9 @@ In the Settings page, you will be able to apply various settings to the way the 
 
 #### Screenshots ####
 
-1. [Settings Screen](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/01_settings_top.png "Settings Screen - Top")
+1. [Settings Screen - Top](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/01_settings_top.png "Settings Screen")
+2. [Settings Screen - Bottom](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/02_settings_bottom.png "Settings Screen - Bottom")
+3. [Text Alignment - Left]()
 
 #### Text Alignment Settings ####
 
