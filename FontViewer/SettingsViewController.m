@@ -251,8 +251,9 @@ NSString *_revertString = @"Revert";
         if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
             oldCell.accessoryType = UITableViewCellAccessoryNone;
         }
-        
-        
+    
+    } else if (indexPath.section == 4) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 

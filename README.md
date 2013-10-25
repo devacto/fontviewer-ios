@@ -20,7 +20,7 @@ Options are ON or OFF. Setting reverse character to ON will print the character 
 
 #### Sort By Settings ####
 
-Options are alphabetical order, character count, display size. Alphabetical order sorting is obvious. Sort by character count sorts the table by the number of character that makes up the font name. Sort by display size sorts the table by the width if the name of the font were to be rendered in the specific font at the default size of 14.0f.
+Options are alphabetical order, character count, display size. Alphabetical order sorting is obvious. Sort by character count sorts the table by the number of character that makes up the font name. Sort by display size sorts the table by the width if the name of the font were to be rendered in the specific font at the default size of 14 points.
 
 #### Sort Type Settings ####
 
