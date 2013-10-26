@@ -175,7 +175,7 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
     }
 }
 
-- ( void)editTable:(id)sender
+- (void)editTable:(id)sender
 {
     [self.tableView setEditing:!self.tableView.editing animated:YES];
     [self setupEditButton];
