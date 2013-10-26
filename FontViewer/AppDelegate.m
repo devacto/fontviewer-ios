@@ -56,4 +56,41 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - First load handler
+
+- (void)loadFirstTimeSettings
+{
+    if ([self getUsedCounter] <= 1) {
+        [AppDelegate setDefaultSettings];
+        [self incrementUsedCounter];
+    }
+}
+
+- (NSInteger)getUsedCounter
+{
+    NSInteger counter = [[NSUserDefaults standardUserDefaults] integerForKey:@"usedCounter"];
+    return counter;
+}
+
+- (void)incrementUsedCounter
+{
+    NSInteger counter = [[NSUserDefaults standardUserDefaults] integerForKey:@"usedCounter"];
+    counter++;
+    [[NSUserDefaults standardUserDefaults] setInteger:counter forKey:@"usedCounter"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (void)setDefaultSettings
+{
+    // Setting text alignment to 0 - which is LEFT.
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"TextAlignmentIndex"];
+    
+    // Setting sort by index to 0 - which is ALPHABETICAL ORDER
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"SortByIndex"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"ReverseCharacterBool"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SortAscendingBool"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 @end
