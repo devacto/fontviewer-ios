@@ -16,6 +16,8 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    [self loadFirstTimeSettings];
+    
     // Setting TableViewController and NavigationViewController
     UIViewController *tableViewController = [[TableViewController alloc] initWithNibName:@"TableViewController" bundle:nil];
     tableViewController.title = @"Font Catalogue";
@@ -89,7 +91,6 @@
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"SortByIndex"];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"ReverseCharacterBool"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SortAscendingBool"];
-    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

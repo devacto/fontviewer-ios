@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "AppDelegate.h"
 
 @interface SettingsViewController ()
 
@@ -254,6 +255,7 @@ NSString *_revertString = @"Revert";
     
     } else if (indexPath.section == 4) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [AppDelegate setDefaultSettings];
     }
 }
 
@@ -281,6 +283,8 @@ NSString *_revertString = @"Revert";
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
+    } else if (section == 4) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
 }
 
