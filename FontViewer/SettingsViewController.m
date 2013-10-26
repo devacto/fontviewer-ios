@@ -256,6 +256,7 @@ NSString *_revertString = @"Revert";
     } else if (indexPath.section == 4) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [AppDelegate setDefaultSettings];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 
