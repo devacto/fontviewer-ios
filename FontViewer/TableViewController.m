@@ -209,6 +209,10 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
             break;
     }
     
+    if (_sortTypeAscending == NO) {
+        [self sortDescending];
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -282,6 +286,14 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
 
         return [firstFontWidth compare:secondFontWidth];
     }];
+}
+
+#pragma mark - Sort descending
+
+- (void)sortDescending
+{
+    NSArray *reversedFontNames = [[_fontNames reverseObjectEnumerator] allObjects];
+    _fontNames = [reversedFontNames mutableCopy];
 }
 
 #pragma mark - Other helper methods
