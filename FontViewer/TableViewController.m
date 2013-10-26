@@ -125,10 +125,8 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
         [self.fontNames removeObjectAtIndex:indexPath.row];
         NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
         [tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        [self setSettingsAfterTableModifications];
     }
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
 }
 
 
@@ -138,6 +136,7 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
     NSString *stringToMove = [self.fontNames objectAtIndex:fromIndexPath.row];
     [self.fontNames removeObjectAtIndex:fromIndexPath.row];
     [self.fontNames insertObject:stringToMove atIndex:toIndexPath.row];
+    [self setSettingsAfterTableModifications];
 }
 
 /*
@@ -323,4 +322,11 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
     return items;
 }
 
+- (void)setSettingsAfterTableModifications
+{
+    // Change sort-by to 3.
+    // Change sort type ascending to false
+    [[NSUserDefaults standardUserDefaults] setInteger:3 forKey:@"SortByIndex"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SortAscendingBool"];
+}
 @end
