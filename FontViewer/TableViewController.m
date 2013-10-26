@@ -37,17 +37,20 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
     // Set property which will become the data source of the TableViewController.
     self.fontNames = [[UIFont familyNames] mutableCopy];
     
-    // Configure the settings of the model which is to be displayed in the table.
-    [self setupDataModel];
-    
-    // Set text alignment
-    _textAlignment = [self getTextAlignment];
-    
-    // Set the title in the navigation controller
     // Add the edit button
     // Add the settings button
     [self setupEditButton];
     [self setupSettingsButton];
+    
+    // Get settings stored on the phone.
+    _reverseCharacter = [self getReverseCharacter];
+    _sortTypeAscending = [self getSortTypeAscending];
+    _textAlignment = [self getTextAlignment];
+    
+    // Configure model based on settings stored on phones.
+    [self setupTableSorting];
+    
+    // Reload table based on configured model
     [self.tableView reloadData];
 }
 
@@ -185,21 +188,8 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
     [self.navigationItem setLeftBarButtonItem:settingsButton];
 }
 
-- (void)setupDataModel
+- (void)setupTableSorting
 {
-    // Read from NSUserDefaults and modify _fontNames property based on stored settings.
-    // TextAlignmentIndex, ReverseCharacterBool, SortByIndex, SortAscendingBool.
-    // This function will call helper functions that will sort or reverse character of the items in the table.
-    
-    // TextAlignment does not need to be done because it is implemented already.
-    
-    // Check if ReverseCharacterBool is on and then change the array string accordingly.
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ReverseCharacterBool"] == YES) {
-        _reverseCharacter = YES;
-    } else {
-        _reverseCharacter = NO;
-    }
-    
     // Check which sorting is being stored on NSUserDefaults and then apply the necessary sorting.
     // 0 - Alphabetical order; 1 - Character count; 2 - Display size; If it is not 0, 1 or 2 - No sorting.
     NSInteger sortByIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"SortByIndex"];
@@ -231,21 +221,13 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
     [self.navigationController pushViewController:settingsViewController animated:YES];
 }
 
-#pragma mark - Display style helper methods
+#pragma mark - Retrieve settings
 
-// String reverse helper function
-- (NSString *)reverseStringFrom:(NSString *)originalString
+// Reverse character: YES or NO
+- (BOOL)getReverseCharacter
 {
-    NSMutableString *reversedString = [NSMutableString string];
-    NSInteger charIndex = [originalString length];
-    while (originalString && charIndex > 0) {
-        charIndex--;
-        NSRange subStrRange = NSMakeRange(charIndex, 1);
-        [reversedString appendString:[originalString substringWithRange:subStrRange]];
-    }
-    return reversedString;
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"ReverseCharacterBool"];
 }
-
 
 // Text alignment: left or right
 - (NSTextAlignment)getTextAlignment {
@@ -267,6 +249,12 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
 }
 
 // Sort by: alphabetical order, character count, display size.
+- (BOOL)getSortTypeAscending
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"SortAscendingBool"];
+}
+
+#pragma mark - Sort methods
 
 // Method to sort the array by alphabetical order.
 - (void)sortFontNamesByAlphabeticalOrder
@@ -291,17 +279,25 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
         
         NSNumber *firstFontWidth  = [NSNumber numberWithFloat:[(NSString *)firstObject sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:firstObject size:DEFAULT_FONT_SIZE]}].width];
         NSNumber *secondFontWidth = [NSNumber numberWithFloat:[(NSString *)secondObject sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:secondObject size:DEFAULT_FONT_SIZE]}].width];
-        
-        NSLog(@"Display size of firstObject %@ is %@", firstObject, firstFontWidth);
-        NSLog(@"Display size of secondObject %@ is %@", secondObject, secondFontWidth);
 
         return [firstFontWidth compare:secondFontWidth];
     }];
 }
 
-// Sort type ascending: true or false
-
 #pragma mark - Other helper methods
+
+// String reverse helper function
+- (NSString *)reverseStringFrom:(NSString *)originalString
+{
+    NSMutableString *reversedString = [NSMutableString string];
+    NSInteger charIndex = [originalString length];
+    while (originalString && charIndex > 0) {
+        charIndex--;
+        NSRange subStrRange = NSMakeRange(charIndex, 1);
+        [reversedString appendString:[originalString substringWithRange:subStrRange]];
+    }
+    return reversedString;
+}
 
 - (NSInteger)numberOfItemsInTable
 {
