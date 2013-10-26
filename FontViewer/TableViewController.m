@@ -247,6 +247,7 @@ CGFloat DEFAULT_FONT_SIZE = 14.0;
         
         default:
             [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"TextAlignmentIndex"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             return NSTextAlignmentLeft;
             break;
     }
