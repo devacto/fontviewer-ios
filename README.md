@@ -6,9 +6,16 @@ In the Settings page, you will be able to apply various settings to the way the 
 
 #### Screenshots ####
 
-1. [Settings Screen - Top](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/01_settings_top.png "Settings Screen")
-2. [Settings Screen - Bottom](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/02_settings_bottom.png "Settings Screen - Bottom")
-3. [Text Alignment - Left]()
+1. [Settings screen - top](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/01_settings_top.png)
+2. [Settings screen - bottom](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/02_settings_bottom.png)
+3. [Text alignment - left](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/03_text_alignment_left.png)
+4. [Text alignment - right](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/04_text_alignment_right.png)
+5. [Reverse character](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/05_reverse_character.png)
+6. [Sort by character count](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/06_sort_by_character_count.png)
+7. [Sort by display size](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/07_sort_by_display_size.png)
+8. [Sort descending](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/08_sort_descending.png)
+9. [Deleting cell](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/09_deleting_cell.png)
+10. [Moving cell](https://github.com/devacto/fontviewer-ios/blob/master/screenshots/10_moving_cell.png)
 
 #### Text Alignment Settings ####
 
